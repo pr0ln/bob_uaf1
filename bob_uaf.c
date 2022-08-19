@@ -166,6 +166,8 @@ static long device_ioctl(struct file *file, unsigned int cmd, unsigned long args
 
 			return vuln_write64(&input);
 		case IOCTL_VULN:
+			if (copy_from_user(&input, (struct vuln_input __user *)args, sizeof(input)))
+                                return -EFAULT;
                         return vuln_vulnfunc((unsigned int)args);
 		default:
 			break;
